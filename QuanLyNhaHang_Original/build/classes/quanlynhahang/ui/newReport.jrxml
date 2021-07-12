@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="72" bottomMargin="0" uuid="ffcdafd1-827a-4e7e-a128-7fc17d79701b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MAHD" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+                <![CDATA[SELECT	top 1 with ties
+                        NHANVIEN.TENNV AS TENNV,						
+                        HOADON.MAHD AS MAHD,
+                        HOADON.NGAY AS NGAY,
+                        HOADON.THOIGIAN AS THOIGIAN,
+                        CT_HD.MASP AS MASP,
+                        FORMAT(CT_HD.DONGIA,'#,###,000') AS DONGIA,
+                        SANPHAM.TENSP AS TENMON,
+                        SANPHAM.DONGIA AS DONGIA,
+                        CT_HD.SOLUONG AS SOLUONG,
+                        FORMAT(CT_HD.SOLUONG*SANPHAM.DONGIA,'###,###,000') AS TIEN,
+                        FORMAT(HOADON.THANHTIEN/(100 - HOADON.CHIETKHAU)*HOADON.CHIETKHAU,'###,###,000') AS CHIETKHAU,
+                        FORMAT(HOADON.THANHTIEN,'###,###,000') AS THANHTIEN
+
+                    FROM HOADON INNER JOIN CT_HD ON HOADON.MAHD= CT_HD.MAHD		
+                        INNER JOIN SANPHAM ON CT_HD.MASP=SANPHAM.MASP
+                        INNER JOIN NHANVIEN ON HOADON.MANV = NHANVIEN.MANV
+
+                    Group by CT_HD.MAHD, HOADON.MAHD, HOADON.NGAY, HOADON.SOBAN, HOADON.THOIGIAN, 
+                        CT_HD.MASP, CT_HD.DONGIA, SANPHAM.TENSP, SANPHAM.DONGIA, CT_HD.SOLUONG , NHANVIEN.TENNV, HOADON.CHIETKHAU, HOADON.THANHTIEN
+
+                    ORDER BY HOADON.MAHD DESC]]>
+                    
+	</queryString>
+	<field name="TENNV" class="java.lang.String"/>
+	<field name="MAHD" class="java.lang.Integer"/>
+	<field name="NGAY" class="java.lang.String"/>
+	<field name="SOBAN" class="java.lang.Integer"/>
+	<field name="THOIGIAN" class="java.lang.String"/>
+	<field name="MASP" class="java.lang.Integer"/>
+	<field name="DONGIA" class="java.lang.Double"/>
+	<field name="TENMON" class="java.lang.String"/>
+	<field name="SOLUONG" class="java.lang.Integer"/>
+	<field name="TIEN" class="java.lang.String"/>
+	<field name="CHIETKHAU" class="java.lang.String"/>
+	<field name="THANHTIEN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="224" y="26" width="118" height="40" uuid="5fb9f7b9-a4e8-45a5-9b3a-35250fccd9df"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[HOA DON]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="15" y="0" width="100" height="20" uuid="ffcb4620-8fa0-4de6-b63c-fd5310b356c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[MA HOA DON:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="0" width="100" height="20" uuid="232c5877-5548-4177-86a5-64ea56f22b5d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[BAN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="0" width="156" height="20" uuid="d94d92d4-3ab4-4db3-a0fd-a30a3f9c881c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MAHD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="397" y="0" width="156" height="20" uuid="dc76399b-7362-4e3c-97f4-235574799ffa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOBAN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="32" width="100" height="20" uuid="b31f7916-c5df-466c-abe4-87992eacf32e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[NGAY TAO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="32" width="100" height="20" uuid="d4d49d85-7528-4fb8-9f99-0948bc3dce92"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[GIO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="125" y="32" width="156" height="20" uuid="15db652a-fe84-4336-91a2-b824eaa2ecf2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NGAY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH.mm">
+				<reportElement x="397" y="32" width="156" height="20" uuid="686ba5e5-9b04-4e6f-91d6-f8d3dccdabeb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{THOIGIAN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="63" width="100" height="30" uuid="7e933c50-26c7-47d6-810c-9f039d03b622"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[TEN NV: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="125" y="63" width="146" height="30" uuid="76d99e7f-4309-4313-86e7-fd8791b66a1d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TENNV}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="57" y="0" width="105" height="20" uuid="49bd66c2-a11c-4d4c-9114-37d226c26f40"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ten Mon]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="0" width="109" height="20" uuid="d9f23e72-274a-4e81-9b19-81324292efd8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Don Gia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="0" width="116" height="20" uuid="74859e7b-f259-45fd-8603-453f114a6e05"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[So Luong]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="0" width="110" height="20" uuid="5ee8b7b9-5b21-44b3-9d53-dab1eded047d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Tien (VND)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="57" y="0" width="105" height="20" uuid="e14551e9-4271-464d-b5bd-1ef1a75ffb9a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TENMON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="109" height="20" uuid="9b095193-f749-401a-98a8-07e99be90882"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{DONGIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="0" width="116" height="20" uuid="c3d2275b-542e-4fd3-8d4f-76997d57215d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{SOLUONG}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="0" width="110" height="20" uuid="b2bdf4be-16d1-4569-992d-86cb63ced1a4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TIEN}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-1" y="-14" width="552" height="1" forecolor="#FFFFFF" uuid="da8f075a-7a74-4d5c-882b-b6f45b1b8aba"/>
+			</line>
+			<line>
+				<reportElement x="-2" y="33" width="553" height="1" forecolor="#FFFFFF" uuid="9b7a5b77-8a58-474f-a7ea-93a6d5b9d5fb"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="342" y="10" width="109" height="35" uuid="907785a0-0c4e-4789-a076-f17ed8e04c70"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{THANHTIEN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="213" y="10" width="129" height="35" uuid="93779607-76ad-4482-937e-3b709dbdb628"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Thanh Tien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="10" width="100" height="35" uuid="baa1eab7-8bb1-43b2-a736-51a2ca3082ab"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[   VND]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="25" width="100" height="20" uuid="6dc9dcc4-1269-4f61-9e92-a337d1dad9d3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CHIETKHAU}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="25" width="57" height="20" uuid="4adfd784-f357-4e90-9f69-a0989fe2947b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Chiet Khau (VND) :]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
